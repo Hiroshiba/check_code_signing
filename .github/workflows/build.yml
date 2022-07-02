@@ -8,6 +8,7 @@ on:
 jobs:
   hoge-job:
     runs-on: windows-latest
+    environment: hoge
     steps:
       - uses: actions/checkout@master
 
