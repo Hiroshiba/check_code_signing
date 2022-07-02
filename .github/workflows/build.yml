@@ -12,13 +12,14 @@ on:
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ inputs.DEBUG != '' && 'hoge' || '' }}
+    environment: ${{ github.event.inputs.DEBUG != '' && 'hoge' || '' }}
     steps:
       # - uses: actions/checkout@master
 
       - shell: bash
         run: |
           echo ok
+          echo debug "${{ github.event.inputs.DEBUG }}"
           echo secret "$HOGEENV"
         env:
           HOGEENV: ${{ secrets.HOGEENV }}
