@@ -22,3 +22,11 @@ jobs:
         env:
           CERT_BASE64: ${{ secrets.CERT_BASE64 }}
           CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: run.exe
+          path: run.exe
+          target_path: run.exe
+          source: run.exe
+          when: on_success
