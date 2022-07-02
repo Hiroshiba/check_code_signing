@@ -5,12 +5,15 @@ on:
     branches:
       - main
 
+env:
+  DEBUG: "1"
+
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: hoge
+    environment: ${{ env.DEBUG != '' && 'hoge' || '' }}
     steps:
-      - uses: actions/checkout@master
+      # - uses: actions/checkout@master
 
       - shell: bash
         run: |
