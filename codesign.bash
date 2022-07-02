@@ -1,6 +1,6 @@
 # !!! コードサイニング証明書を取り扱うので取り扱い注意 !!!
 
-set -eux
+set -eu
 
 if [ -v "${CERT_BASE64}" ]; then
     echo "CERT_BASE64が未定義です"
