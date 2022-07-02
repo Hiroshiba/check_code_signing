@@ -1,3 +1,5 @@
+# !!! コードサイニング証明書を取り扱うので取り扱い注意 !!!
+
 set -eu
 
 if [ -v "${CERT_BASE64}" ]; then
@@ -11,7 +13,7 @@ fi
 
 # 証明書
 CERT_PATH=cert.pfx
-echo -n $CERT_BASE64 | base64 -d - > $CERT_PATH
+echo -n "$CERT_BASE64" | base64 -d - > $CERT_PATH
 
 # 指定ファイルに署名する
 function codesign() {
