@@ -12,7 +12,7 @@ on:
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ github.event.inputs.DEBUG != '' && '' || 'fuga' }}
+    environment: ${{ github.event.inputs.DEBUG != '' && '' || 'hoge' }}
     steps:
       # - uses: actions/checkout@master
 
