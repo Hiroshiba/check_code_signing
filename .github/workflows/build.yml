@@ -15,6 +15,6 @@ jobs:
       - shell: bash
         run: |
           echo ok
-          echo secret "${{ env.HOGEENV }}"
+          echo secret "$HOGEENV"
         env:
           HOGEENV: ${{ secrets.HOGEENV }}
