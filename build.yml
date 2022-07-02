@@ -1,0 +1,17 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hoge-job:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - shell: bash
+        run: |
+          echo ok
+          echo secret "${{ secrets.HOGEENV }}"
