@@ -8,16 +8,16 @@ on:
     inputs:
       code_signing:
         description: "コード署名するかどうか"
-        default: ""
+        type: boolean
 
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ github.event.inputs.code_signing != '' && 'hoge' || '' }}
+    environment: ${{ github.event.inputs.code_signing && 'hoge' || '' }}
     steps:
       - uses: actions/checkout@master
 
-      - if: ${{ github.event.inputs.code_signing != '' }}
+      - if: ${{ github.event.inputs.code_signing }}
         shell: bash
         run: bash codesign.bash "*.exe"
         env:
