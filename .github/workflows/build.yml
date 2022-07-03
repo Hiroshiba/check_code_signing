@@ -13,7 +13,7 @@ on:
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ github.event.inputs.code_signing && 'hoge' || '' }}
+    environment: ${{ github.event.inputs.code_signing && 'hoge' }}
     steps:
       - uses: actions/checkout@master
 
