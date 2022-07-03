@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - if: ${{ github.event.inputs.code_signing }}
+      - if: github.event.inputs.code_signing
         shell: bash
         run: bash codesign.bash "*.exe"
         env:
