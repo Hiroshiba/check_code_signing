@@ -36,7 +36,7 @@ function is_signed() {
 }
 
 # 署名されていなければ署名
-ls "$target_file_glob" | while read target_file; do
+ls $target_file_glob | while read target_file; do
     if is_signed "$target_file"; then
         echo "署名済み: $target_file"
     else
