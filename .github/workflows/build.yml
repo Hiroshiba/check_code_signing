@@ -6,14 +6,14 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      DEBUG:
-        default: "1"
+      CODE_SIGNING:
+        description: "コード署名するかどうか"
+        default: ""
 
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: 'hoge'
-    # environment: ${{ github.event.inputs.DEBUG != '' && '' || 'hoge' }}
+    environment: ${{ github.event.inputs.CODE_SIGNING != '' && 'hoge' || '' }}
     steps:
       - uses: actions/checkout@master
 
