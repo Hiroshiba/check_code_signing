@@ -10,18 +10,14 @@ on:
         description: "コード署名するかどうか"
         default: ""
 
-env:
-  # コード署名するかどうか
-  CODE_SIGNING: ${{ github.event.inputs.code_signing }}
-
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ env.CODE_SIGNING != '' && 'hoge' || '' }}
+    environment: ${{ github.event.inputs.code_signing != '' && 'hoge' || '' }}
     steps:
       - uses: actions/checkout@master
 
-      - if: ${{ env.CODE_SIGNING != '' }}
+      - if: ${{ github.event.inputs.code_signing != '' }}
         shell: bash
         run: bash codesign.bash
         env:
