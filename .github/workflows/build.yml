@@ -6,18 +6,23 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      CODE_SIGNING:
+      code_signing:
         description: "コード署名するかどうか"
         default: ""
+
+env:
+  # コード署名するかどうか
+  CODE_SIGNING: ${{ github.event.inputs.code_signing }}
 
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ github.event.inputs.CODE_SIGNING != '' && 'hoge' || '' }}
+    environment: ${{ env.CODE_SIGNING != '' && 'hoge' || '' }}
     steps:
       - uses: actions/checkout@master
 
-      - shell: bash
+      - if: ${{ env.CODE_SIGNING != '' }}
+        shell: bash
         run: bash codesign.bash
         env:
           CERT_BASE64: ${{ secrets.CERT_BASE64 }}
