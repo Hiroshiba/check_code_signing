@@ -11,6 +11,12 @@ if [ -v "${CERT_PASSWORD}" ]; then
     exit 1
 fi
 
+if [ $# -ne 1 ]; then
+    echo "引数の数が一致しません"
+    exit 1
+fi
+target_file_glob="$1"
+
 # 証明書
 CERT_PATH=cert.pfx
 echo -n "$CERT_BASE64" | base64 -d - > $CERT_PATH
@@ -29,11 +35,15 @@ function is_signed() {
     powershell "& '$SIGNTOOL' verify /pa '$TARGET'" || return 1
 }
 
-is_signed python38.dll || codesign python38.dll
-is_signed run.exe || codesign run.exe
-
-is_signed python38.dll
-is_signed run.exe
+# 署名されていなければ署名
+ls "$target_file_glob" | while read target_file; do
+    if is_signed "$target_file"; then
+        echo "署名済み: $target_file"
+    else
+        echo "署名: $target_file"
+        codesign "$target_file"
+    fi
+done
 
 # 証明書を消去
 rm $CERT_PATH

@@ -19,7 +19,7 @@ jobs:
 
       - if: ${{ github.event.inputs.code_signing != '' }}
         shell: bash
-        run: bash codesign.bash
+        run: bash codesign.bash "*.exe"
         env:
           CERT_BASE64: ${{ secrets.CERT_BASE64 }}
           CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
