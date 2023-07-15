@@ -35,7 +35,7 @@ fi
 # 証明書を読み込む
 powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
 
-ls "$INSTALL_DIR/master.key"
+powershell "& certutil -store My"
 
 THUMBPRINT=$(
     powershell '
