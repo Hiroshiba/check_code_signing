@@ -140,7 +140,6 @@ jobs:
           path: run.exe
 
       - uses: actions/upload-artifact@master
-      with:
-        name: artifacts
-        path: artifacts
-  
+        with:
+          name: artifacts
+          path: artifacts
