@@ -41,29 +41,29 @@ THUMBPRINT=$(
     '
 )
 
-# # 指定ファイルに署名する
-# function codesign() {
-#     TARGET="$1"
-#     SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-#     powershell "& '$SIGNTOOL' sign /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 '$THUMBPRINT' '$TARGET'"
-# }
+# 指定ファイルに署名する
+function codesign() {
+    TARGET="$1"
+    SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
+    powershell "& '$SIGNTOOL' sign /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 '$THUMBPRINT' '$TARGET'"
+}
 
-# # 指定ファイルが署名されているか
-# function is_signed() {
-#     TARGET="$1"
-#     SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-#     powershell "& '$SIGNTOOL' verify /pa '$TARGET'" || return 1
-# }
+# 指定ファイルが署名されているか
+function is_signed() {
+    TARGET="$1"
+    SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
+    powershell "& '$SIGNTOOL' verify /pa '$TARGET'" || return 1
+}
 
-# # 署名されていなければ署名
-# ls $target_file_glob | while read target_file; do
-#     if is_signed "$target_file"; then
-#         echo "署名済み: $target_file"
-#     else
-#         echo "署名: $target_file"
-#         codesign "$target_file"
-#     fi
-# done
+# 署名されていなければ署名
+ls $target_file_glob | while read target_file; do
+    if is_signed "$target_file"; then
+        echo "署名済み: $target_file"
+    else
+        echo "署名: $target_file"
+        codesign "$target_file"
+    fi
+done
 
 # 証明書を削除
 powershell "& '$INSTALL_DIR\eSignerCKATool.exe' unload"
