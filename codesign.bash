@@ -24,31 +24,38 @@ if [ ! -d "$INSTALL_DIR" ]; then
     curl -LO "https://github.com/SSLcom/eSignerCKA/releases/download/v1.0.6/SSL.COM-eSigner-CKA_1.0.6.zip"
     unzip -o SSL.COM-eSigner-CKA_1.0.6.zip
     mv *eSigner*CKA_*.exe eSigner_CKA_Installer.exe
+    # powershell "
+    #     & ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null
+    #     & '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r
+    #     & '$INSTALL_DIR\eSignerCKATool.exe' unload
+    # "
     powershell "
         & ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null
-        & '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r
-        & '$INSTALL_DIR\eSignerCKATool.exe' unload
     "
-    rm SSL.COM-eSigner-CKA_1.0.6.zip eSigner_CKA_Installer.exe
+    # rm SSL.COM-eSigner-CKA_1.0.6.zip eSigner_CKA_Installer.exe
 fi
 
 # 証明書を読み込む
 powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
 
-powershell "& certutil -store My"
-
-THUMBPRINT=$(
-    powershell '
-        $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
-        echo "$($CodeSigningCert.Thumbprint)"
-    '
-)
+# THUMBPRINT=$(
+#     powershell '
+#         $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
+#         echo "$($CodeSigningCert.Thumbprint)"
+#     '
+# )
 
 # 指定ファイルに署名する
 function codesign() {
     TARGET="$1"
     SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-    powershell "& '$SIGNTOOL' sign /debug /fd SHA256 /td SHA256 /tr http://ts.ssl.com /sha1 $THUMBPRINT '$TARGET'"
+    powershell "
+        & '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r
+        & '$INSTALL_DIR\eSignerCKATool.exe' unload
+        & '$INSTALL_DIR\eSignerCKATool.exe' load
+        $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
+        & '$SIGNTOOL' sign /debug /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 $($CodeSigningCert.Thumbprint) '$TARGET'
+    "
 }
 
 # 指定ファイルが署名されているか
