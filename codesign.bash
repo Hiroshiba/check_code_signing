@@ -27,16 +27,25 @@ if [ ! -d "$INSTALL_DIR" ]; then
         & ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null
         & '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r
         & '$INSTALL_DIR\eSignerCKATool.exe' unload
-        & '$INSTALL_DIR\eSignerCKATool.exe' load
     "
     rm SSL.COM-eSigner-CKA_1.0.6.zip eSigner_CKA_Installer.exe
 fi
+
+# 証明書を読み込む
+powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
+
+THUMBPRINT=$(
+    powershell '
+        $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
+        echo "$CodeSigningCert.Thumbprint"
+    '
+)
 
 # # 指定ファイルに署名する
 # function codesign() {
 #     TARGET="$1"
 #     SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-#     powershell "& '$SIGNTOOL' sign /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /f $CERT_PATH /p $CERT_PASSWORD '$TARGET'"
+#     powershell "& '$SIGNTOOL' sign /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 '$THUMBPRINT' '$TARGET'"
 # }
 
 # # 指定ファイルが署名されているか
@@ -56,5 +65,5 @@ fi
 #     fi
 # done
 
-# # 証明書を消去
-# rm $CERT_PATH
+# 証明書を削除
+powershell "& '$INSTALL_DIR\eSignerCKATool.exe' unload"
