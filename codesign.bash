@@ -60,7 +60,7 @@ ls $target_file_glob | while read target_file; do
     if is_signed "$target_file"; then
         echo "署名済み: $target_file"
     else
-        echo "署名: $target_file"
+        echo "署名開始: $target_file"
         codesign "$target_file"
     fi
 done
