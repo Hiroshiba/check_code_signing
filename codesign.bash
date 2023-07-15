@@ -27,7 +27,7 @@ powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGB
 rm eSigner_CKA_Installer.exe
 
 # should to product
-powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode sandbox -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
+powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
 
 # # 指定ファイルに署名する
 # function codesign() {
