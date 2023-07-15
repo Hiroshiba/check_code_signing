@@ -16,9 +16,9 @@ env:
 jobs:
   # Defines job named "sign-file"
   sign-file:
+    environment: hoge
     # Run job on Windows Runner
     runs-on: windows-latest
-    environment: hoge
     # When the workflow runs, this is the name that is logged
     name: Sign DLL File with eSignerCKA
     steps:
