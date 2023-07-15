@@ -26,10 +26,8 @@ mv *eSigner*CKA_*.exe eSigner_CKA_Installer.exe
 powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null"
 rm eSigner_CKA_Installer.exe
 
-ls -a "$INSTALL_DIR"
-
 # should to product
-powershell "& '$INSTALL_DIR/eSignerCKATool.exe' config -mode sandbox -user '${{ secrets.USERNAME }}' -pass '${{ secrets.PASSWORD }}' -totp '${{ secrets.TOTP_SECRET }}' -key '$INSTALL_DIR\master.key' -r"
+powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode sandbox -user '$USERNAME' -pass '$PASSWORD' -totp '$TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
 
 # # 指定ファイルに署名する
 # function codesign() {
