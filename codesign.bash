@@ -37,7 +37,7 @@ powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
 THUMBPRINT=$(
     powershell '
         $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
-        echo "$CodeSigningCert.Thumbprint"
+        echo "$($CodeSigningCert.Thumbprint)"
     '
 )
 
