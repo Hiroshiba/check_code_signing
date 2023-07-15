@@ -1,7 +1,6 @@
 # !!! コードサイニング証明書を取り扱うので取り扱い注意 !!!
 
-# set -eu
-set -euxv
+set -eu
 
 if [ ! -v ESIGNERCKA_USERNAME ]; then
     echo "ESIGNERCKA_USERNAMEが未定義です"
@@ -46,7 +45,7 @@ THUMBPRINT=$(
 function codesign() {
     TARGET="$1"
     SIGNTOOL='C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x86/signtool.exe' # これじゃないとダメ
-    powershell "& '$SIGNTOOL' sign /debug /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 '$THUMBPRINT' '$TARGET'"
+    powershell "& '$SIGNTOOL' sign /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 '$THUMBPRINT' '$TARGET'"
 }
 
 # 指定ファイルが署名されているか
