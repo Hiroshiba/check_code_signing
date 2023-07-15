@@ -1,4 +1,3 @@
-# ---
 name: Build
 
 on:
@@ -14,7 +13,6 @@ on:
 jobs:
   hoge-job:
     runs-on: windows-latest
-    # runs-on: ubuntu-latest
     # environment: ${{ github.event.inputs.code_signing == 'true' && 'hoge' }}
     environment: hoge
     steps:
@@ -32,26 +30,3 @@ jobs:
         with:
           name: run.exe
           path: run.exe
-
-      # - name: Sign Artifact with CodeSignTool
-      #   uses: sslcom/actions-codesigner@develop
-      #   with:
-      #     # Sign and timestamp code object.
-      #     command: sign
-      #     # SSL.com account username.
-      #     username: ${{secrets.ESIGNERCKA_USERNAME}}
-      #     # SSL.com account password.
-      #     password: ${{secrets.ESIGNERCKA_PASSWORD}}
-      #     # Credential ID for signing certificate.
-      #     credential_id: ${{secrets.ESIGNERCKA_CREDENTIAL_ID}}
-      #     # OAuth TOTP Secret (https://www.ssl.com/how-to/automate-esigner-ev-code-signing)
-      #     totp_secret: ${{secrets.ESIGNERCKA_TOTP_SECRET}}
-      #     # Path of code object to be signed. (DLL, JAR, EXE, MSI files vb... )
-      #     file_path: run.exe
-      #     # Directory where signed code object(s) will be written.
-      #     output_path: artifacts
-
-      # - uses: actions/upload-artifact@master
-      #   with:
-      #     name: artifacts
-      #     path: artifacts
