@@ -35,6 +35,8 @@ fi
 # 証明書を読み込む
 powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
 
+powershell "Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1"
+
 THUMBPRINT=$(
     powershell '
         $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
