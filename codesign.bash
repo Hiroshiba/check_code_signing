@@ -48,8 +48,18 @@ fi
 # 指定ファイルに署名する
 function codesign() {
     TARGET="$1"
-    SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-    # SIGNTOOL='C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe'
+    # SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
+    SIGNTOOL='C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x86\signtool.exe'
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x64/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.19041.0/x64/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.19041.0/x86/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.20348.0/x64/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.20348.0/x86/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.22000.0/x64/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.22000.0/x86/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/signtool.exe
+    # C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x86/signtool.exe
     powershell "
         & '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r
         & '$INSTALL_DIR\eSignerCKATool.exe' unload
