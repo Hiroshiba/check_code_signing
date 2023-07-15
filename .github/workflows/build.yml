@@ -132,7 +132,7 @@ jobs:
           # SSL.com account password.
           password: ${{secrets.ESIGNERCKA_PASSWORD}}
           # Credential ID for signing certificate.
-          # credential_id: ${{secrets.CREDENTIAL_ID}}
+          credential_id: ${{secrets.ESIGNERCKA_CREDENTIAL_ID}}
           # OAuth TOTP Secret (https://www.ssl.com/how-to/automate-esigner-ev-code-signing)
           totp_secret: ${{secrets.ESIGNERCKA_TOTP_SECRET}}
           # Path of code object to be signed. (DLL, JAR, EXE, MSI files vb... )
