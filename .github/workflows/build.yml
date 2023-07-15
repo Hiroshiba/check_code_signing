@@ -110,7 +110,7 @@ jobs:
 
       # - if: github.event.inputs.code_signing
       - shell: bash
-        run: bash codesign.bash "*.exe"
+        run: bash codesign.bash "HelloWorld.dll"
         env:
           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
