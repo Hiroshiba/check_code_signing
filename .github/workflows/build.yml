@@ -9,7 +9,7 @@ on:
 # Create an environment variable
 env:
   MASTER_KEY: master.key
-  SIGNABLE_FILE_PATH: run.exe
+  SIGNABLE_FILE_PATH: python38.dll
   INSTALL_DIR: C:\Users\runneradmin\eSignerCKA
   MASTER_KEY_FILE: C:\Users\runneradmin\eSignerCKA\master.key
 
