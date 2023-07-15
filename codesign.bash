@@ -27,9 +27,9 @@ powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGB
 rm eSigner_CKA_Installer.exe
 
 # should to product
-USERNAME="test"
-PASSWORD="test"
-TOTP_SECRET="test"
+USERNAME="mortales@gmail.com"
+PASSWORD="passowrd"
+TOTP_SECRET="mI0KkB8...JW1oNgbUfQCwJU="
 powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode sandbox -user '$USERNAME' -pass '$PASSWORD' -totp '$TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
 
 # # 指定ファイルに署名する
