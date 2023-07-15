@@ -4,21 +4,22 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      code_signing:
-        description: "コード署名する"
-        type: boolean
+  # workflow_dispatch:
+  #   inputs:
+  #     code_signing:
+  #       description: "コード署名する"
+  #       type: boolean
 
 jobs:
   hoge-job:
     runs-on: windows-latest
-    environment: ${{ github.event.inputs.code_signing == 'true' && 'hoge' }}
+    # environment: ${{ github.event.inputs.code_signing == 'true' && 'hoge' }}
+    environment: hoge
     steps:
       - uses: actions/checkout@master
 
-      - if: github.event.inputs.code_signing
-        shell: bash
+      # - if: github.event.inputs.code_signing
+      - shell: bash
         run: bash codesign.bash "*.exe"
         env:
           CERT_BASE64: ${{ secrets.CERT_BASE64 }}
