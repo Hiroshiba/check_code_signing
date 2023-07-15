@@ -48,8 +48,8 @@ fi
 # 指定ファイルに署名する
 function codesign() {
     TARGET="$1"
-    SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-    # SIGNTOOL='C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x86\signtool.exe'
+    # SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
+    SIGNTOOL='C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe'
     # C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x64/signtool.exe
     # C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe
     # C:/Program Files (x86)/Windows Kits/10/bin/10.0.19041.0/x64/signtool.exe
