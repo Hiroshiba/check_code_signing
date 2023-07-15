@@ -41,6 +41,8 @@ THUMBPRINT=$(
     '
 )
 
+echo "THUMBPRINT='$THUMBPRINT'"
+
 # 指定ファイルに署名する
 function codesign() {
     TARGET="$1"
