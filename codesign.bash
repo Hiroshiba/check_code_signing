@@ -21,8 +21,8 @@ target_file_glob="$1"
 # eSignerCKAのセットアップ
 INSTALL_DIR='C:\Users\runneradmin\eSignerCKA'
 if [ ! -d "$INSTALL_DIR" ]; then
-    curl -LO "https://github.com/SSLcom/eSignerCKA/releases/download/v1.0.6/SSL.COM-eSigner-CKA_1.0.6.zip"
-    unzip -o SSL.COM-eSigner-CKA_1.0.6.zip
+    curl -LO "https://github.com/SSLcom/eSignerCKA/releases/download/v1.0.4/SSL.COM-eSigner-CKA_1.0.4.zip"
+    unzip -o SSL.COM-eSigner-CKA_1.0.4.zip
     mv *eSigner*CKA_*.exe eSigner_CKA_Installer.exe
     # powershell "
     #     & ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null
@@ -32,7 +32,7 @@ if [ ! -d "$INSTALL_DIR" ]; then
     powershell "
         & ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null
     "
-    # rm SSL.COM-eSigner-CKA_1.0.6.zip eSigner_CKA_Installer.exe
+    # rm SSL.COM-eSigner-CKA_1.0.4.zip eSigner_CKA_Installer.exe
 fi
 
 # # 証明書を読み込む

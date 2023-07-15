@@ -109,43 +109,38 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # # - if: github.event.inputs.code_signing
-      # - shell: bash
-      #   run: bash codesign.bash "run.exerun.exe"
-      #   env:
-      #     ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
-      #     ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
-      #     ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
-
-      - name: Build Artifacts Directory
-        shell: bash
-        run: |
-          mkdir ${GITHUB_WORKSPACE}/artifacts
-
-      - name: Sign Artifact with CodeSignTool
-        uses: sslcom/actions-codesigner@develop
-        with:
-          # Sign and timestamp code object.
-          command: sign
-          # SSL.com account username.
-          username: ${{secrets.ESIGNERCKA_USERNAME}}
-          # SSL.com account password.
-          password: ${{secrets.ESIGNERCKA_PASSWORD}}
-          # Credential ID for signing certificate.
-          credential_id: ${{secrets.ESIGNERCKA_CREDENTIAL_ID}}
-          # OAuth TOTP Secret (https://www.ssl.com/how-to/automate-esigner-ev-code-signing)
-          totp_secret: ${{secrets.ESIGNERCKA_TOTP_SECRET}}
-          # Path of code object to be signed. (DLL, JAR, EXE, MSI files vb... )
-          file_path: run.exe
-          # Directory where signed code object(s) will be written.
-          output_path: artifacts
+      # - if: github.event.inputs.code_signing
+      - shell: bash
+        run: bash codesign.bash "run.exerun.exe"
+        env:
+          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
 
       - uses: actions/upload-artifact@master
         with:
           name: run.exe
           path: run.exe
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: artifacts
-          path: artifacts
+      # - name: Sign Artifact with CodeSignTool
+      #   uses: sslcom/actions-codesigner@develop
+      #   with:
+      #     # Sign and timestamp code object.
+      #     command: sign
+      #     # SSL.com account username.
+      #     username: ${{secrets.ESIGNERCKA_USERNAME}}
+      #     # SSL.com account password.
+      #     password: ${{secrets.ESIGNERCKA_PASSWORD}}
+      #     # Credential ID for signing certificate.
+      #     credential_id: ${{secrets.ESIGNERCKA_CREDENTIAL_ID}}
+      #     # OAuth TOTP Secret (https://www.ssl.com/how-to/automate-esigner-ev-code-signing)
+      #     totp_secret: ${{secrets.ESIGNERCKA_TOTP_SECRET}}
+      #     # Path of code object to be signed. (DLL, JAR, EXE, MSI files vb... )
+      #     file_path: run.exe
+      #     # Directory where signed code object(s) will be written.
+      #     output_path: artifacts
+
+      # - uses: actions/upload-artifact@master
+      #   with:
+      #     name: artifacts
+      #     path: artifacts
