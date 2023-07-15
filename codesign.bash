@@ -17,8 +17,8 @@ if [ $# -ne 1 ]; then
 fi
 target_file_glob="$1"
 
-# eSignerCKAのインストール
-INSTALL_DIR="C:/Users/runneradmin/eSignerCKA"
+# eSignerCKAのセットアップ
+INSTALL_DIR='C:\Users\runneradmin\eSignerCKA'
 curl -LO "https://github.com/SSLcom/eSignerCKA/releases/download/v1.0.6/SSL.COM-eSigner-CKA_1.0.6.zip"
 unzip -o SSL.COM-eSigner-CKA_1.0.6.zip
 rm SSL.COM-eSigner-CKA_1.0.6.zip
@@ -26,7 +26,10 @@ mv *eSigner*CKA_*.exe eSigner_CKA_Installer.exe
 powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null"
 rm eSigner_CKA_Installer.exe
 
-ls -a $INSTALL_DIR
+ls -a "$INSTALL_DIR"
+
+# should to product
+powershell "& '$INSTALL_DIR/eSignerCKATool.exe' config -mode sandbox -user '${{ secrets.USERNAME }}' -pass '${{ secrets.PASSWORD }}' -totp '${{ secrets.TOTP_SECRET }}' -key '$INSTALL_DIR\master.key' -r"
 
 # # 指定ファイルに署名する
 # function codesign() {
