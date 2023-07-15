@@ -136,9 +136,9 @@ jobs:
           # OAuth TOTP Secret (https://www.ssl.com/how-to/automate-esigner-ev-code-signing)
           totp_secret: ${{secrets.ESIGNERCKA_TOTP_SECRET}}
           # Path of code object to be signed. (DLL, JAR, EXE, MSI files vb... )
-          file_path: ${GITHUB_WORKSPACE}/run.exe
+          file_path: run.exe
           # Directory where signed code object(s) will be written.
-          output_path: ${GITHUB_WORKSPACE}/artifacts
+          output_path: artifacts
 
       - uses: actions/upload-artifact@master
         with:
