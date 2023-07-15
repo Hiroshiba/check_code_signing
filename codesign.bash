@@ -35,8 +35,8 @@ if [ ! -d "$INSTALL_DIR" ]; then
     # rm SSL.COM-eSigner-CKA_1.0.6.zip eSigner_CKA_Installer.exe
 fi
 
-# 証明書を読み込む
-powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
+# # 証明書を読み込む
+# powershell "& '$INSTALL_DIR\eSignerCKATool.exe' load"
 
 # THUMBPRINT=$(
 #     powershell '
