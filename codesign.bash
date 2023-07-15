@@ -1,6 +1,7 @@
 # !!! コードサイニング証明書を取り扱うので取り扱い注意 !!!
 
-set -eu
+# set -eu
+set -euxv
 
 if [ ! -v ESIGNERCKA_USERNAME ]; then
     echo "ESIGNERCKA_USERNAMEが未定義です"
