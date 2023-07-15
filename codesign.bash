@@ -52,7 +52,7 @@ function codesign() {
 function is_signed() {
     TARGET="$1"
     SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
-    powershell "& '$SIGNTOOL' verify /pa '$TARGET'" || return 1
+    powershell "& '$SIGNTOOL' verify /pa /q '$TARGET' > /dev/null 2>&1" || return 1
 }
 
 # 署名されていなければ署名
