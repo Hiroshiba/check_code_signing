@@ -46,6 +46,7 @@ function codesign() {
     TARGET="$1"
     SIGNTOOL=$(find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V | tail -n 1)
     powershell "
+        & '$INSTALL_DIR\eSignerCKATool.exe' unload
         & '$INSTALL_DIR\eSignerCKATool.exe' load
         & '$SIGNTOOL' sign /debug /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 $THUMBPRINT '$TARGET'
     "
