@@ -111,7 +111,7 @@ jobs:
 
       # - if: github.event.inputs.code_signing
       - shell: bash
-        run: bash codesign.bash "run.exerun.exe"
+        run: bash codesign.bash "run.exe"
         env:
           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
