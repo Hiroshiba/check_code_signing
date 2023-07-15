@@ -22,7 +22,7 @@ curl -LO "https://github.com/SSLcom/eSignerCKA/releases/download/v1.0.6/SSL.COM-
 unzip -o SSL.COM-eSigner-CKA_1.0.6.zip
 rm SSL.COM-eSigner-CKA_1.0.6.zip
 mv *eSigner*CKA_*.exe eSigner_CKA_Installer.exe
-./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES
+powershell "& eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES"
 rm eSigner_CKA_Installer.exe
 
 # # 指定ファイルに署名する
