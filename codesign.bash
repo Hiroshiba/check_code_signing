@@ -18,14 +18,15 @@ fi
 target_file_glob="$1"
 
 # eSignerCKAのインストール
+INSTALL_DIR="C:/Users/runneradmin/eSignerCKA"
 curl -LO "https://github.com/SSLcom/eSignerCKA/releases/download/v1.0.6/SSL.COM-eSigner-CKA_1.0.6.zip"
 unzip -o SSL.COM-eSigner-CKA_1.0.6.zip
 rm SSL.COM-eSigner-CKA_1.0.6.zip
 mv *eSigner*CKA_*.exe eSigner_CKA_Installer.exe
-powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES | Out-Null"
+powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGBOXES /DIR="$INSTALL_DIR" | Out-Null"
 rm eSigner_CKA_Installer.exe
 
-ls
+ls -a $INSTALL_DIR
 
 # # 指定ファイルに署名する
 # function codesign() {
