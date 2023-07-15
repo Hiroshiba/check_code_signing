@@ -53,8 +53,8 @@ function codesign() {
         & '$INSTALL_DIR\eSignerCKATool.exe' config -mode product -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r
         & '$INSTALL_DIR\eSignerCKATool.exe' unload
         & '$INSTALL_DIR\eSignerCKATool.exe' load
-        $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
-        & '$SIGNTOOL' sign /debug /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 $($CodeSigningCert.Thumbprint) '$TARGET'
+        \$CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
+        & '$SIGNTOOL' sign /debug /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /sha1 \$(\$CodeSigningCert.Thumbprint) '$TARGET'
     "
 }
 
