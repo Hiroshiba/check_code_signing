@@ -108,15 +108,39 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # - if: github.event.inputs.code_signing
-      - shell: bash
-        run: bash codesign.bash "HelloWorld.dll"
-        env:
-          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
-          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
-          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+      # # - if: github.event.inputs.code_signing
+      # - shell: bash
+      #   run: bash codesign.bash "run.exerun.exe"
+      #   env:
+      #     ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+      #     ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+      #     ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+
+      - name: Sign Artifact with CodeSignTool
+        uses: sslcom/actions-codesigner@develop
+        with:
+          # Sign and timestamp code object.
+          command: sign
+          # SSL.com account username.
+          username: ${{secrets.ESIGNERCKA_USERNAME}}
+          # SSL.com account password.
+          password: ${{secrets.ESIGNERCKA_PASSWORD}}
+          # Credential ID for signing certificate.
+          # credential_id: ${{secrets.CREDENTIAL_ID}}
+          # OAuth TOTP Secret (https://www.ssl.com/how-to/automate-esigner-ev-code-signing)
+          totp_secret: ${{secrets.ESIGNERCKA_TOTP_SECRET}}
+          # Path of code object to be signed. (DLL, JAR, EXE, MSI files vb... )
+          file_path: ${GITHUB_WORKSPACE}/run.exe
+          # Directory where signed code object(s) will be written.
+          output_path: ${GITHUB_WORKSPACE}/artifacts
 
       - uses: actions/upload-artifact@master
         with:
           name: run.exe
           path: run.exe
+
+      - uses: actions/upload-artifact@master
+      with:
+        name: artifacts
+        path: artifacts
+  
