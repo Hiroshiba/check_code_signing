@@ -2,19 +2,19 @@
 
 set -eu
 
-if [ ! -v CERT_BASE64 ]; then
-    echo "CERT_BASE64が未定義です"
+if [ ! -v ESIGNERCKA_USERNAME ]; then
+    echo "ESIGNERCKA_USERNAMEが未定義です"
     exit 1
 fi
-if [ ! -v CERT_PASSWORD ]; then
-    echo "CERT_PASSWORDが未定義です"
+if [ ! -v ESIGNERCKA_PASSWORD ]; then
+    echo "ESIGNERCKA_PASSWORDが未定義です"
+    exit 1
+fi
+if [ ! -v ESIGNERCKA_TOTP_SECRET ]; then
+    echo "ESIGNERCKA_TOTP_SECRETが未定義です"
     exit 1
 fi
 
-if [ $# -ne 1 ]; then
-    echo "引数の数が一致しません"
-    exit 1
-fi
 target_file_glob="$1"
 
 # eSignerCKAのセットアップ
@@ -27,10 +27,7 @@ powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGB
 rm eSigner_CKA_Installer.exe
 
 # should to product
-USERNAME="mortales@gmail.com"
-PASSWORD="passowrd"
-TOTP_SECRET="mI0KkB8...JW1oNgbUfQCwJU="
-powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode sandbox -user '$USERNAME' -pass '$PASSWORD' -totp '$TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
+powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode sandbox -user '$ESIGNERCKA_USERNAME' -pass '$ESIGNERCKA_PASSWORD' -totp '$ESIGNERCKA_TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
 
 # # 指定ファイルに署名する
 # function codesign() {
