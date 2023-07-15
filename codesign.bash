@@ -1,6 +1,6 @@
 # !!! コードサイニング証明書を取り扱うので取り扱い注意 !!!
 
-# set -eu
+set -eu
 
 if [ ! -v CERT_BASE64 ]; then
     echo "CERT_BASE64が未定義です"
@@ -27,6 +27,9 @@ powershell "& ./eSigner_CKA_Installer.exe /CURRENTUSER /VERYSILENT /SUPPRESSMSGB
 rm eSigner_CKA_Installer.exe
 
 # should to product
+USERNAME="test"
+PASSWORD="test"
+TOTP_SECRET="test"
 powershell "& '$INSTALL_DIR\eSignerCKATool.exe' config -mode sandbox -user '$USERNAME' -pass '$PASSWORD' -totp '$TOTP_SECRET' -key '$INSTALL_DIR\master.key' -r"
 
 # # 指定ファイルに署名する
