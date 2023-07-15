@@ -26,6 +26,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - shell: bash
+        run: find "C:/Program Files (x86)/Windows Kits/10/App Certification Kit" -name "signtool.exe" | sort -V
+
       # 2) Download and Unzip eSignerCKA Setup
       - name: Download and Unzip eSignerCKA Setup
         run: |
