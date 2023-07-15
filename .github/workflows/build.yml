@@ -9,7 +9,7 @@ on:
 # Create an environment variable
 env:
   MASTER_KEY: master.key
-  SIGNABLE_FILE_PATH: python38.dll
+  SIGNABLE_FILE_PATH: run.exe
   INSTALL_DIR: C:\Users\runneradmin\eSignerCKA
   MASTER_KEY_FILE: C:\Users\runneradmin\eSignerCKA\master.key
 
@@ -64,13 +64,13 @@ jobs:
         run: |
           & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x86/signtool.exe' sign /debug /fd sha256 /tr http://ts.ssl.com /td sha256 /sha1 ${{ env.THUMBPRINT }} ${{ env.SIGNABLE_FILE_PATH }}
 
-      # # 8) Upload eSignerCKA Logs
-      # - name: Upload eSignerCKA Logs
-      #   uses: actions/upload-artifact@v3
-      #   if: ${{ always() }}
-      #   with:
-      #     name: eSignerCKA-Logs
-      #     path: C:\Users\runneradmin\AppData\Roaming\eSignerCKA\KSP
+      # 8) Upload eSignerCKA Logs
+      - name: Upload eSignerCKA Logs
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: eSignerCKA-Logs
+          path: C:\Users\runneradmin\AppData\Roaming\eSignerCKA\KSP
 
       # 9) Upload signtool file
       - name: Upload SignTool File
