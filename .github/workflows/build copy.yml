@@ -52,7 +52,7 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: build
+      - name: load eSignerCKA
         shell: bash
         run: |
           bash ../codesign.bash "dummydummydummy.exe"
@@ -82,12 +82,12 @@ jobs:
           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
           ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
 
-      - name: build
+      - name: electron build
         run: |
           yarn
           yarn dist
 
-      - name: build
+      - name: unload eSignerCKA
         shell: bash
         run: |
           powershell "& '..\eSignerCKA\eSignerCKATool.exe' unload"
