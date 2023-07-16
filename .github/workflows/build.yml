@@ -63,6 +63,8 @@ jobs:
       - name: build
         shell: bash
         run: |
+          bash ../codesign.bash "dummydummydummy.exe"
+
           powershell "& '..\eSignerCKA\eSignerCKATool.exe' load"
           THUMBPRINT=$(
               powershell '
@@ -74,7 +76,6 @@ jobs:
               echo "THUMBPRINTが空"
               exit 1
           fi
-          powershell "& '..\eSignerCKA\eSignerCKATool.exe' unload"
 
           # electron-builder.config.js の `const certificateSha1 = null;`を置き換える
           BEFORE_HASH=$(sha256sum ./electron-builder.config.js)
@@ -85,8 +86,15 @@ jobs:
               exit 1
           fi
 
+      - name: build
+        run: |
           yarn
           yarn dist
+
+      - name: build
+        run: |
+          shell: bash
+          powershell "& '..\eSignerCKA\eSignerCKATool.exe' unload"
 
       - uses: actions/upload-artifact@master
         with:
