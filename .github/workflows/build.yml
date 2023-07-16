@@ -54,7 +54,7 @@ jobs:
 
       # 空打ち
       - shell: bash
-        run: bash ../codesign.bash ""
+        run: bash ../codesign.bash "dummydummydummy.exe"
         env:
           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
@@ -70,7 +70,8 @@ jobs:
           )
           echo "THUMBPRINT: $THUMBPRINT"
 
-          # `const certificateSha1 = null; // REPLACE HERE`を置き換える
+          # electron-builder.config.js の `const certificateSha1 = null;`を置き換える
+          sed -i "s/const certificateSha1 = null;/const certificateSha1 = '$THUMBPRINT';/g" ./electron-builder.config.js
 
           yarn
           yarn dist
