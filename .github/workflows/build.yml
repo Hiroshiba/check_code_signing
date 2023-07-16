@@ -63,13 +63,17 @@ jobs:
       - name: build
         shell: bash
         run: |
+          # ../eSignerCKA
           THUMBPRINT=$(
               powershell '
                   $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
                   echo "$($CodeSigningCert.Thumbprint)"
               '
           )
-          echo "THUMBPRINT: $THUMBPRINT"
+          if [ -z "$THUMBPRINT" ]; then
+              echo "THUMBPRINTが空"
+              exit 1
+          fi
 
           # electron-builder.config.js の `const certificateSha1 = null;`を置き換える
           BEFORE_HASH=$(sha256sum ./electron-builder.config.js)
