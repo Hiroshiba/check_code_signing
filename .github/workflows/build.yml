@@ -52,14 +52,6 @@ jobs:
         with:
           node-version: "18.x"
 
-      # 空打ち
-      - shell: bash
-        run: bash ../codesign.bash "dummydummydummy.exe"
-        env:
-          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
-          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
-          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
-
       - name: build
         shell: bash
         run: |
@@ -85,6 +77,10 @@ jobs:
               echo "BEFORE_HASH と AFTER_HASH が一致しているので置き換えに失敗している"
               exit 1
           fi
+        env:
+          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
 
       - name: build
         run: |
@@ -92,8 +88,8 @@ jobs:
           yarn dist
 
       - name: build
+        shell: bash
         run: |
-          shell: bash
           powershell "& '..\eSignerCKA\eSignerCKATool.exe' unload"
 
       - uses: actions/upload-artifact@master
