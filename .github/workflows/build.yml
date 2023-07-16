@@ -10,31 +10,54 @@ on:
   #       description: "コード署名する"
   #       type: boolean
 
+# jobs:
+#   hoge-job:
+#     runs-on: windows-latest
+#     environment: hoge
+#     steps:
+#       - uses: actions/checkout@master
+
+#       # - if: github.event.inputs.code_signing
+#       - shell: bash
+#         run: bash codesign.bash "run.exe"
+#         env:
+#           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+#           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+#           ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+
+#       # - if: github.event.inputs.code_signing
+#       - shell: bash
+#         run: bash codesign.bash "*.dll"
+#         env:
+#           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+#           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+#           ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+
+#       - uses: actions/upload-artifact@master
+#         with:
+#           name: run.exe
+#           path: run.exe
+
 jobs:
   hoge-job:
     runs-on: windows-latest
-    # environment: ${{ github.event.inputs.code_signing == 'true' && 'hoge' }}
     environment: hoge
+    defaults:
+      run:
+        working-directory: ./new-electron-webpack-project
     steps:
       - uses: actions/checkout@master
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
 
-      # - if: github.event.inputs.code_signing
-      - shell: bash
-        run: bash codesign.bash "run.exe"
-        env:
-          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
-          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
-          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
-
-      # - if: github.event.inputs.code_signing
-      - shell: bash
-        run: bash codesign.bash "*.dll"
-        env:
-          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
-          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
-          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+      - name: build
+        run: |
+          yarn
+          yarn dist
 
       - uses: actions/upload-artifact@master
         with:
-          name: run.exe
-          path: run.exe
+          name: dist
+          path: dist
