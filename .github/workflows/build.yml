@@ -52,8 +52,18 @@ jobs:
         with:
           node-version: "18.x"
 
+      # 空打ち
+      - shell: bash
+        run: bash codesign.bash ""
+        env:
+          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+
       - name: build
         run: |
+          # `const certificateSha1 = null; // REPLACE HERE`を置き換える
+
           yarn
           yarn dist
 
