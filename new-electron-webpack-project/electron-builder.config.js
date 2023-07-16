@@ -1,4 +1,4 @@
-const certificateSha1 = ""; // REPLACE HERE
+const certificateSha1 = null; // REPLACE HERE
 
 /** @type {import("electron-builder").Configuration} */
 const builderOptions = {
