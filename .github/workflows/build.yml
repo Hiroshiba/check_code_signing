@@ -82,6 +82,15 @@ jobs:
               echo "BEFORE_HASH と AFTER_HASH が一致しているので置き換えに失敗している"
               exit 1
           fi
+
+          # electron-builder.config.js の `const signingHashAlgorithms = null;`を置き換える
+          BEFORE_HASH=$(sha256sum ./electron-builder.config.js)
+          sed -i "s/const signingHashAlgorithms = null;/const signingHashAlgorithms = ['sha256'];/g" ./electron-builder.config.js
+          AFTER_HASH=$(sha256sum ./electron-builder.config.js)
+          if [ "$BEFORE_HASH" = "$AFTER_HASH" ]; then
+              echo "BEFORE_HASH と AFTER_HASH が一致しているので置き換えに失敗している"
+              exit 1
+          fi
         env:
           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
