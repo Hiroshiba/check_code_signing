@@ -10,35 +10,94 @@ on:
 #         description: "コード署名する"
 #         type: boolean
 
+# jobs:
+#   hoge-job:
+#     runs-on: windows-latest
+#     environment: hoge
+#     steps:
+#       - uses: actions/checkout@master
+
+#       # - if: github.event.inputs.code_signing
+#       - shell: bash
+#         run: bash codesign.bash "run.exe"
+#         env:
+#           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+#           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+#           ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+
+#       - uses: actions/upload-artifact@master
+#         with:
+#           name: run.exe
+#           path: run.exe
+
+#       # - if: github.event.inputs.code_signing
+#       - shell: bash
+#         run: bash codesign.bash "*.dll"
+#         env:
+#           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
+#           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
+#           ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+
+#       - uses: actions/upload-artifact@master
+#         with:
+#           name: HelloWorld.dll
+#           path: HelloWorld.dll
+
 jobs:
   hoge-job:
     runs-on: windows-latest
     environment: hoge
+    defaults:
+      run:
+        working-directory: ./new-electron-webpack-project
     steps:
       - uses: actions/checkout@master
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
 
-      # - if: github.event.inputs.code_signing
-      - shell: bash
-        run: bash codesign.bash "run.exe"
+      - name: load eSignerCKA
+        shell: bash
+        run: |
+          bash ../codesign.bash "dummydummydummy.exe"
+
+          powershell "& '..\eSignerCKA\eSignerCKATool.exe' load"
+          THUMBPRINT=$(
+              powershell '
+                $CodeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
+                echo "$($CodeSigningCert.Thumbprint)"
+              '
+          )
+          if [ -z "$THUMBPRINT" ]; then
+              echo "THUMBPRINTが空"
+              exit 1
+          fi
+
+          # electron-builder.config.js の `const certificateSha1 = null;`を置き換える
+          BEFORE_HASH=$(sha256sum ./electron-builder.config.js)
+          sed -i "s/const certificateSha1 = null;/const certificateSha1 = '$THUMBPRINT';/g" ./electron-builder.config.js
+          AFTER_HASH=$(sha256sum ./electron-builder.config.js)
+          if [ "$BEFORE_HASH" = "$AFTER_HASH" ]; then
+              echo "BEFORE_HASH と AFTER_HASH が一致しているので置き換えに失敗している"
+              exit 1
+          fi
         env:
           ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
           ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
           ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: run.exe
-          path: run.exe
+      - name: electron build
+        run: |
+          yarn
+          yarn dist
 
-      # - if: github.event.inputs.code_signing
-      - shell: bash
-        run: bash codesign.bash "*.dll"
-        env:
-          ESIGNERCKA_USERNAME: ${{ secrets.ESIGNERCKA_USERNAME }}
-          ESIGNERCKA_PASSWORD: ${{ secrets.ESIGNERCKA_PASSWORD }}
-          ESIGNERCKA_TOTP_SECRET: ${{ secrets.ESIGNERCKA_TOTP_SECRET }}
+      - name: unload eSignerCKA
+        shell: bash
+        run: |
+          powershell "& '..\eSignerCKA\eSignerCKATool.exe' unload"
 
       - uses: actions/upload-artifact@master
         with:
-          name: HelloWorld.dll
-          path: HelloWorld.dll
+          name: dist
+          path: dist
